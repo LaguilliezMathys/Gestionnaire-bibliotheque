@@ -1,0 +1,226 @@
+<div class="container mt-4">
+    <h2 class="section-title">Mon espace personnel</h2>
+
+    @if (message()) {
+        <div class="alert" [class.alert-success]="messageType() === 'success'" [class.alert-danger]="messageType() === 'danger'" [class.alert-info]="messageType() === 'info'">
+            {{ message() }}
+        </div>
+    }
+
+    @if (profil()) {
+        <!-- Dashboard summary -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="card stat-card">
+                    <h3>{{ emprunts().length }}</h3>
+                    <p class="text-muted mb-0">Emprunts</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stat-card">
+                    <h3>{{ reservations().length }}</h3>
+                    <p class="text-muted mb-0">Réservations actives</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stat-card">
+                    <h3 class="text-success">Actif</h3>
+                    <p class="text-muted mb-0">Compte {{ profil()!.actif ? 'actif' : 'suspendu' }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profil -->
+        <div class="card mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">Informations personnelles</h5>
+                    @if (!editMode) {
+                        <button class="btn btn-sm btn-outline-primary" (click)="editMode = true">Modifier</button>
+                    }
+                </div>
+
+                @if (editMode) {
+                    <form (ngSubmit)="sauvegarderProfil()">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Téléphone</label>
+                                <input type="text" class="form-control" [(ngModel)]="editTelephone" name="telephone">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Adresse</label>
+                                <input type="text" class="form-control" [(ngModel)]="editAdresse" name="adresse">
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-primary me-2">Sauvegarder</button>
+                            <button type="button" class="btn btn-outline-secondary" (click)="editMode = false">Annuler</button>
+                        </div>
+                    </form>
+                } @else {
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <small class="text-muted d-block">Nom complet</small>
+                                <strong>{{ profil()!.prenom }} {{ profil()!.nom }}</strong>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted d-block">Email</small>
+                                <strong>{{ profil()!.email }}</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <small class="text-muted d-block">Téléphone</small>
+                                <strong>{{ profil()!.telephone || 'Non renseigné' }}</strong>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted d-block">Adresse</small>
+                                <strong>{{ profil()!.adresse || 'Non renseignée' }}</strong>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <small class="text-muted">Membre depuis le {{ profil()!.dateInscription }}</small>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Onglets -->
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <a class="nav-link" [class.active]="ongletActif === 'emprunts'"
+                   (click)="ongletActif = 'emprunts'" style="cursor: pointer">
+                    Emprunts <span class="badge bg-secondary ms-1">{{ emprunts().length }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [class.active]="ongletActif === 'reservations'"
+                   (click)="ongletActif = 'reservations'" style="cursor: pointer">
+                    Réservations <span class="badge bg-secondary ms-1">{{ reservations().length }}</span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Emprunts -->
+        @if (ongletActif === 'emprunts') {
+            <div class="card">
+                <div class="card-body p-0">
+                    @if (emprunts().length > 0) {
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Livre</th>
+                                        <th>Emprunté le</th>
+                                        <th>Retour prévu</th>
+                                        <th>Retour effectif</th>
+                                        <th>Statut</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (emprunt of emprunts(); track emprunt.id) {
+                                        <tr>
+                                            <td>
+                                                @if (emprunt.livre) {
+                                                    <a [routerLink]="['/livres', emprunt.livre.id]" class="fw-bold text-decoration-none">
+                                                        {{ emprunt.livre.titre }}
+                                                    </a>
+                                                }
+                                            </td>
+                                            <td>{{ emprunt.dateEmprunt }}</td>
+                                            <td>{{ emprunt.dateRetourPrevue }}</td>
+                                            <td>{{ emprunt.dateRetourEffective || '—' }}</td>
+                                            <td>
+                                                @if (emprunt.dateRetourEffective) {
+                                                    <span class="badge badge-disponible">Rendu</span>
+                                                } @else if (emprunt.enRetard) {
+                                                    <span class="badge badge-indisponible">En retard</span>
+                                                } @else {
+                                                    <span class="badge badge-reserve">En cours</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    } @else {
+                        <div class="text-center p-4">
+                            <p class="text-muted mb-2">Aucun emprunt pour le moment</p>
+                            <a routerLink="/catalogue" class="btn btn-sm btn-outline-primary">Découvrir le catalogue</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        <!-- Réservations -->
+        @if (ongletActif === 'reservations') {
+            <div class="card">
+                <div class="card-body p-0">
+                    @if (reservations().length > 0) {
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Livre</th>
+                                        <th>Réservé le</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (resa of reservations(); track resa.id) {
+                                        <tr>
+                                            <td>
+                                                @if (resa.livre) {
+                                                    <a [routerLink]="['/livres', resa.livre.id]" class="fw-bold text-decoration-none">
+                                                        {{ resa.livre.titre }}
+                                                    </a>
+                                                }
+                                            </td>
+                                            <td>{{ resa.dateReservation }}</td>
+                                            <td>
+                                                @if (resa.expiree) {
+                                                    <span class="badge bg-secondary">Expirée</span>
+                                                } @else {
+                                                    <span class="badge badge-disponible">Active</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (!resa.expiree) {
+                                                    <button class="btn btn-sm btn-outline-danger"
+                                                            (click)="annulerReservation(resa.id)">
+                                                        Annuler
+                                                    </button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    } @else {
+                        <div class="text-center p-4">
+                            <p class="text-muted mb-2">Aucune réservation en cours</p>
+                            <p class="text-muted small">Vous pouvez réserver jusqu'à 3 livres simultanément</p>
+                            <a routerLink="/catalogue" class="btn btn-sm btn-outline-primary">Parcourir le catalogue</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        <div class="text-center mt-4">
+            <button class="btn btn-outline-danger" (click)="deconnexion()">Se déconnecter</button>
+        </div>
+    } @else {
+        <div class="spinner-container">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Chargement...</span>
+            </div>
+        </div>
+    }
+</div>

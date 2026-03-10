@@ -1,7 +1,72 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-biblio">
   <div class="container">
-    <a class="navbar-brand" routerLink="/">POC Articles</a>
+    <a class="navbar-brand" routerLink="/">
+      Bibliothèque
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Accueil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/catalogue" routerLinkActive="active">Catalogue</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/auteurs" routerLinkActive="active">Auteurs</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        @if (authService.isLoggedIn()) {
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/mon-compte" routerLinkActive="active">
+              {{ authService.userName() }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" style="cursor: pointer" (click)="authService.logout()">Déconnexion</a>
+          </li>
+        } @else {
+          <li class="nav-item">
+            <a class="btn btn-accent btn-sm" routerLink="/login" style="margin-top: 2px">
+              Se connecter
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
   </div>
 </nav>
 
-<router-outlet />
+<main class="pb-4">
+  <router-outlet />
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h5>Bibliothèque en ligne</h5>
+        <p class="mb-0">Votre portail pour découvrir, réserver et emprunter des livres.</p>
+      </div>
+      <div class="col-md-3">
+        <h6>Navigation</h6>
+        <ul class="list-unstyled">
+          <li><a routerLink="/catalogue">Catalogue</a></li>
+          <li><a routerLink="/auteurs">Auteurs</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h6>Mon espace</h6>
+        <ul class="list-unstyled">
+          <li><a routerLink="/login">Connexion</a></li>
+          <li><a routerLink="/mon-compte">Mon compte</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr style="border-color: rgba(255,255,255,0.2)">
+    <p class="text-center mb-0" style="font-size: 0.85rem">© 2026 Bibliothèque — Projet SAE S6</p>
+  </div>
+</footer>
