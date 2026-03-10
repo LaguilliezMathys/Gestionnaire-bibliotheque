@@ -1,0 +1,94 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title %}Tableau de bord{% endblock %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body text-center">
+                    <i class="fas fa-book fa-3x mb-2"></i>
+                    <h2>{{ nbLivres }}</h2>
+                    <p class="card-text">Livres</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body text-center">
+                    <i class="fas fa-pen-fancy fa-3x mb-2"></i>
+                    <h2>{{ nbAuteurs }}</h2>
+                    <p class="card-text">Auteurs</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body text-center">
+                    <i class="fas fa-tags fa-3x mb-2"></i>
+                    <h2>{{ nbCategories }}</h2>
+                    <p class="card-text">Catégories</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-3x mb-2"></i>
+                    <h2>{{ nbAdherents }}</h2>
+                    <p class="card-text">Adhérents actifs</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4 col-md-6">
+            <div class="card text-white bg-secondary mb-3">
+                <div class="card-body text-center">
+                    <i class="fas fa-exchange-alt fa-3x mb-2"></i>
+                    <h2>{{ nbEmpruntsEnCours }}</h2>
+                    <p class="card-text">Emprunts en cours</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-body text-center">
+                    <i class="fas fa-exclamation-triangle fa-3x mb-2"></i>
+                    <h2>{{ nbEmpruntsEnRetard }}</h2>
+                    <p class="card-text">Emprunts en retard</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="card text-white bg-dark mb-3">
+                <div class="card-body text-center">
+                    <i class="fas fa-clock fa-3x mb-2"></i>
+                    <h2>{{ nbReservations }}</h2>
+                    <p class="card-text">Réservations</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-info-circle"></i> Bienvenue
+                    </h5>
+                    <p class="card-text">
+                        Bienvenue sur le tableau de bord de la <strong>Bibliothèque</strong>.
+                        Utilisez le menu de gauche pour gérer les livres, auteurs, catégories,
+                        adhérents, emprunts et réservations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

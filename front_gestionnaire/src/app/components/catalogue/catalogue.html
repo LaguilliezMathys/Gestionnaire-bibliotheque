@@ -1,0 +1,117 @@
+<div class="container mt-4">
+    <h2 class="section-title">Catalogue des livres</h2>
+
+    <!-- Filtres de recherche -->
+    <div class="card mb-4">
+        <div class="card-body p-4">
+            <h6 class="fw-bold mb-3">Recherche avancée</h6>
+            <form (ngSubmit)="rechercher()">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label for="titre" class="form-label">Titre</label>
+                        <input type="text" class="form-control" id="titre"
+                               [(ngModel)]="searchTitre" name="titre" placeholder="Rechercher un livre...">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="categorie" class="form-label">Catégorie</label>
+                        <select class="form-select" id="categorie" [(ngModel)]="selectedCategorie" name="categorie">
+                            <option [value]="0">Toutes les catégories</option>
+                            @for (cat of categories(); track cat.id) {
+                                <option [value]="cat.id">{{ cat.libelle }}</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="langue" class="form-label">Langue</label>
+                        <select class="form-select" id="langue" [(ngModel)]="selectedLangue" name="langue">
+                            <option value="">Toutes les langues</option>
+                            @for (lang of langues(); track lang) {
+                                <option [value]="lang">{{ lang }}</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end gap-2">
+                        <button type="submit" class="btn btn-primary">Rechercher</button>
+                        <button type="button" class="btn btn-outline-secondary" (click)="resetFiltres()" title="Réinitialiser">✕</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Résultats -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <p class="text-muted mb-0"><strong>{{ total() }}</strong> livre(s) trouvé(s)</p>
+        @if (totalPages > 1) {
+            <span class="text-muted small">Page {{ page() }} / {{ totalPages }}</span>
+        }
+    </div>
+
+    @if (loading()) {
+        <div class="spinner-container">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Chargement...</span>
+            </div>
+        </div>
+    } @else {
+        <div class="row g-4">
+            @for (livre of livres(); track livre.id) {
+                <div class="col-md-6 col-lg-3">
+                    <div class="card book-card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                @if (livre.categorie) {
+                                    <span class="badge badge-categorie">{{ livre.categorie.libelle }}</span>
+                                }
+                                @if (livre.disponible) {
+                                    <span class="badge badge-disponible">Disponible</span>
+                                } @else {
+                                    <span class="badge badge-indisponible">Indisponible</span>
+                                }
+                            </div>
+                            <h5 class="card-title">{{ livre.titre }}</h5>
+                            <p class="book-meta mb-1">
+                                @if (livre.auteurs && livre.auteurs.length > 0) {
+                                    @for (auteur of livre.auteurs; track auteur.id; let last = $last) {
+                                        {{ auteur.prenom }} {{ auteur.nom }}@if (!last) {, }
+                                    }
+                                }
+                            </p>
+                            <p class="book-meta">
+                                {{ livre.langue }} · {{ livre.dateSortie | slice:0:4 }}
+                            </p>
+                        </div>
+                        <div class="card-footer text-end">
+                            <a [routerLink]="['/livres', livre.id]" class="btn btn-sm btn-outline-primary">
+                                Voir détail →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            } @empty {
+                <div class="col-12">
+                    <div class="alert alert-info text-center">
+                        <p class="mb-0">Aucun livre ne correspond à votre recherche.</p>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Pagination -->
+        @if (totalPages > 1) {
+            <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" [class.disabled]="page() === 1">
+                        <a class="page-link" (click)="pagePrecedente()" style="cursor: pointer">← Précédent</a>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link">Page {{ page() }} / {{ totalPages }}</span>
+                    </li>
+                    <li class="page-item" [class.disabled]="page() === totalPages">
+                        <a class="page-link" (click)="pageSuivante()" style="cursor: pointer">Suivant →</a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    }
+</div>

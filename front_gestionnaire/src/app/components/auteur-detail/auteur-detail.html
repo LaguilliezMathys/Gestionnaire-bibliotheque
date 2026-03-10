@@ -1,0 +1,60 @@
+<div class="container mt-4">
+    @if (auteur()) {
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/auteurs">Auteurs</a></li>
+                <li class="breadcrumb-item active">{{ auteur()!.prenom }} {{ auteur()!.nom }}</li>
+            </ol>
+        </nav>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card author-card">
+                    <div class="author-avatar" style="width:100px;height:100px;font-size:2rem;">
+                        {{ auteur()!.prenom.charAt(0) }}{{ auteur()!.nom.charAt(0) }}
+                    </div>
+                    <div class="card-body">
+                        <h3 class="fw-bold">{{ auteur()!.prenom }} {{ auteur()!.nom }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                @if (auteur()!.biographie) {
+                    <div class="card mb-4">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold">Biographie</h5>
+                            <p class="text-muted" style="line-height: 1.7">{{ auteur()!.biographie }}</p>
+                        </div>
+                    </div>
+                }
+
+                @if (auteur()!.livres && auteur()!.livres!.length > 0) {
+                    <h5 class="fw-bold mb-3">Livres de cet auteur ({{ auteur()!.livres!.length }})</h5>
+                    <div class="row g-3">
+                        @for (livre of auteur()!.livres; track livre.id) {
+                            <div class="col-md-6">
+                                <div class="card book-card">
+                                    <div class="card-body">
+                                        <h6 class="card-title">{{ livre.titre }}</h6>
+                                    </div>
+                                    <div class="card-footer text-end">
+                                        <a [routerLink]="['/livres', livre.id]" class="btn btn-sm btn-outline-primary">Voir détail →</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                } @else {
+                    <p class="text-muted">Aucun livre référencé pour cet auteur.</p>
+                }
+            </div>
+        </div>
+    } @else {
+        <div class="spinner-container">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Chargement...</span>
+            </div>
+        </div>
+    }
+</div>
