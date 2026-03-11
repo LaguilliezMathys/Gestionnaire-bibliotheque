@@ -25,13 +25,25 @@ class Auteur
     #[Groups(['auteur:read', 'auteur:list', 'livre:read', 'livre:list'])]
     private ?string $prenom = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: 'date', nullable: true)]
+    #[Groups(['auteur:read', 'auteur:list'])]
+    private ?\DateTimeInterface $dateNaissance = null;
+
+    #[ORM\Column(type: 'date', nullable: true)]
     #[Groups(['auteur:read'])]
-    private ?string $biographie = null;
+    private ?\DateTimeInterface $dateDeces = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['auteur:read', 'auteur:list'])]
+    private ?string $nationalite = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['auteur:read', 'auteur:list'])]
+    #[Groups(['auteur:read', 'auteur:list', 'livre:read'])]
     private ?string $photo = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups(['auteur:read'])]
+    private ?string $description = null;
 
     /**
      * @var Collection<int, Livre>
@@ -74,14 +86,50 @@ class Auteur
         return $this;
     }
 
-    public function getBiographie(): ?string
+    public function getDateNaissance(): ?\DateTimeInterface
     {
-        return $this->biographie;
+        return $this->dateNaissance;
     }
 
-    public function setBiographie(?string $biographie): static
+    public function setDateNaissance(?\DateTimeInterface $dateNaissance): static
     {
-        $this->biographie = $biographie;
+        $this->dateNaissance = $dateNaissance;
+
+        return $this;
+    }
+
+    public function getDateDeces(): ?\DateTimeInterface
+    {
+        return $this->dateDeces;
+    }
+
+    public function setDateDeces(?\DateTimeInterface $dateDeces): static
+    {
+        $this->dateDeces = $dateDeces;
+
+        return $this;
+    }
+
+    public function getNationalite(): ?string
+    {
+        return $this->nationalite;
+    }
+
+    public function setNationalite(?string $nationalite): static
+    {
+        $this->nationalite = $nationalite;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }

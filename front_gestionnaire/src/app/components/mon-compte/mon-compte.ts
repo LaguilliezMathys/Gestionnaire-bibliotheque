@@ -22,8 +22,8 @@ export class MonCompte implements OnInit {
   messageType = signal('');
 
   // Formulaire profil
-  editTelephone = '';
-  editAdresse = '';
+  editNumTel = '';
+  editAdressePostale = '';
   editMode = false;
 
   ongletActif = 'emprunts';
@@ -35,8 +35,8 @@ export class MonCompte implements OnInit {
   chargerDonnees() {
     this.authService.getProfil().subscribe(data => {
       this.profil.set(data);
-      this.editTelephone = data.telephone || '';
-      this.editAdresse = data.adresse || '';
+      this.editNumTel = data.numTel || '';
+      this.editAdressePostale = data.adressePostale || '';
     });
     this.authService.getEmprunts().subscribe(data => this.emprunts.set(data));
     this.authService.getReservations().subscribe(data => this.reservations.set(data));
@@ -44,8 +44,8 @@ export class MonCompte implements OnInit {
 
   sauvegarderProfil() {
     this.authService.updateProfil({
-      telephone: this.editTelephone,
-      adresse: this.editAdresse
+      numTel: this.editNumTel,
+      adressePostale: this.editAdressePostale
     }).subscribe({
       next: (data) => {
         this.profil.set(data);

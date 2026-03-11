@@ -3,23 +3,26 @@
 
     <div class="row g-4">
         @for (auteur of auteurs(); track auteur.id) {
-            <div class="col-md-4 col-lg-3">
-                <div class="card author-card h-100">
-                    <div class="author-avatar">
-                        {{ auteur.prenom.charAt(0) }}{{ auteur.nom.charAt(0) }}
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <a [routerLink]="['/auteurs', auteur.id]" class="author-card-link">
+                    <div class="card author-card h-100">
+                        <div class="author-photo-wrapper">
+                            @if (auteur.photo) {
+                                <img [src]="auteur.photo" [alt]="auteur.prenom + ' ' + auteur.nom" class="author-photo-img">
+                            } @else {
+                                <div class="author-photo-placeholder">
+                                    {{ auteur.prenom?.charAt(0) }}{{ auteur.nom.charAt(0) }}
+                                </div>
+                            }
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title mb-1">{{ auteur.prenom }} {{ auteur.nom }}</h5>
+                            @if (auteur.description) {
+                                <p class="text-muted small mb-0">{{ auteur.description | slice:0:80 }}...</p>
+                            }
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ auteur.prenom }} {{ auteur.nom }}</h5>
-                        @if (auteur.biographie) {
-                            <p class="text-muted small">{{ auteur.biographie | slice:0:100 }}...</p>
-                        }
-                    </div>
-                    <div class="card-footer text-center">
-                        <a [routerLink]="['/auteurs', auteur.id]" class="btn btn-sm btn-outline-primary">
-                            Voir le profil →
-                        </a>
-                    </div>
-                </div>
+                </a>
             </div>
         } @empty {
             <div class="col-12">

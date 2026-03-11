@@ -38,9 +38,9 @@ class AuthController extends AbstractController
             'email' => $user->getEmail(),
             'nom' => $user->getNom(),
             'prenom' => $user->getPrenom(),
-            'telephone' => $user->getTelephone(),
-            'adresse' => $user->getAdresse(),
-            'dateInscription' => $user->getDateInscription()?->format('Y-m-d'),
+            'numTel' => $user->getNumTel(),
+            'adressePostale' => $user->getAdressePostale(),
+            'dateAdhesion' => $user->getDateAdhesion()?->format('Y-m-d'),
             'actif' => $user->isActif(),
         ]);
     }
@@ -56,11 +56,11 @@ class AuthController extends AbstractController
         if (isset($data['email'])) {
             $user->setEmail($data['email']);
         }
-        if (isset($data['telephone'])) {
-            $user->setTelephone($data['telephone']);
+        if (isset($data['numTel'])) {
+            $user->setNumTel($data['numTel']);
         }
-        if (isset($data['adresse'])) {
-            $user->setAdresse($data['adresse']);
+        if (isset($data['adressePostale'])) {
+            $user->setAdressePostale($data['adressePostale']);
         }
 
         $em->flush();
@@ -70,9 +70,9 @@ class AuthController extends AbstractController
             'email' => $user->getEmail(),
             'nom' => $user->getNom(),
             'prenom' => $user->getPrenom(),
-            'telephone' => $user->getTelephone(),
-            'adresse' => $user->getAdresse(),
-            'dateInscription' => $user->getDateInscription()?->format('Y-m-d'),
+            'numTel' => $user->getNumTel(),
+            'adressePostale' => $user->getAdressePostale(),
+            'dateAdhesion' => $user->getDateAdhesion()?->format('Y-m-d'),
             'actif' => $user->isActif(),
         ]);
     }

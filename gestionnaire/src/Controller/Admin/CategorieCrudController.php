@@ -18,7 +18,7 @@ class CategorieCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-            TextField::new('libelle', 'Libellé'),
+            TextField::new('nom', 'Nom'),
         ];
     }
 }

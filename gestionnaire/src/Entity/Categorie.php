@@ -19,7 +19,11 @@ class Categorie
 
     #[ORM\Column(length: 100)]
     #[Groups(['categorie:read', 'livre:read', 'livre:list'])]
-    private ?string $libelle = null;
+    private ?string $nom = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups(['categorie:read'])]
+    private ?string $description = null;
 
     /**
      * @var Collection<int, Livre>
@@ -38,14 +42,26 @@ class Categorie
         return $this->id;
     }
 
-    public function getLibelle(): ?string
+    public function getNom(): ?string
     {
-        return $this->libelle;
+        return $this->nom;
     }
 
-    public function setLibelle(string $libelle): static
+    public function setNom(string $nom): static
     {
-        $this->libelle = $libelle;
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
@@ -81,6 +97,6 @@ class Categorie
 
     public function __toString(): string
     {
-        return $this->libelle ?? '';
+        return $this->nom ?? '';
     }
 }

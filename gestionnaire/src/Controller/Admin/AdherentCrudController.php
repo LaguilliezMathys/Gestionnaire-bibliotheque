@@ -6,6 +6,7 @@ use App\Entity\Adherent;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -37,9 +38,11 @@ class AdherentCrudController extends AbstractCrudController
                 ->setFormTypeOption('mapped', false)
                 ->setRequired($pageName === 'new')
                 ->setHelp('Laissez vide pour ne pas modifier le mot de passe'),
-            TextField::new('telephone', 'Téléphone'),
-            TextField::new('adresse'),
-            DateTimeField::new('dateInscription', 'Date d\'inscription')
+            DateField::new('dateNaissance', 'Date de naissance'),
+            TextField::new('numTel', 'Téléphone'),
+            TextField::new('adressePostale', 'Adresse postale'),
+            TextField::new('photo', 'URL photo')->hideOnIndex(),
+            DateTimeField::new('dateAdhesion', 'Date d\'adhésion')
                 ->hideOnForm(),
             BooleanField::new('actif'),
         ];

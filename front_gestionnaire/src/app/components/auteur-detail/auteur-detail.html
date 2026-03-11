@@ -9,39 +9,72 @@
         </nav>
 
         <div class="row g-4">
+            <!-- Profil auteur -->
             <div class="col-md-4">
-                <div class="card author-card">
-                    <div class="author-avatar" style="width:100px;height:100px;font-size:2rem;">
-                        {{ auteur()!.prenom.charAt(0) }}{{ auteur()!.nom.charAt(0) }}
+                <div class="card author-profile-card">
+                    <div class="author-photo-wrapper">
+                        @if (auteur()!.photo) {
+                            <img [src]="auteur()!.photo" [alt]="auteur()!.prenom + ' ' + auteur()!.nom" class="author-photo-img">
+                        } @else {
+                            <div class="author-photo-placeholder">
+                                {{ auteur()!.prenom?.charAt(0) }}{{ auteur()!.nom.charAt(0) }}
+                            </div>
+                        }
                     </div>
-                    <div class="card-body">
-                        <h3 class="fw-bold">{{ auteur()!.prenom }} {{ auteur()!.nom }}</h3>
+                    <div class="card-body text-center">
+                        <h3 class="fw-bold mb-1">{{ auteur()!.prenom }} {{ auteur()!.nom }}</h3>
+                        @if (auteur()!.livres && auteur()!.livres!.length > 0) {
+                            <p class="text-muted small mb-0">{{ auteur()!.livres!.length }} livre(s) référencé(s)</p>
+                        }
                     </div>
                 </div>
-            </div>
-            <div class="col-md-8">
-                @if (auteur()!.biographie) {
-                    <div class="card mb-4">
+
+                @if (auteur()!.description) {
+                    <div class="card mt-3">
                         <div class="card-body p-4">
-                            <h5 class="fw-bold">Biographie</h5>
-                            <p class="text-muted" style="line-height: 1.7">{{ auteur()!.biographie }}</p>
+                            <h5 class="fw-bold mb-2">Description</h5>
+                            <p class="text-muted" style="line-height: 1.7">{{ auteur()!.description }}</p>
                         </div>
                     </div>
                 }
+            </div>
 
+            <!-- Livres de l'auteur -->
+            <div class="col-md-8">
                 @if (auteur()!.livres && auteur()!.livres!.length > 0) {
-                    <h5 class="fw-bold mb-3">Livres de cet auteur ({{ auteur()!.livres!.length }})</h5>
+                    <h5 class="fw-bold mb-3">Livres de cet auteur</h5>
                     <div class="row g-3">
                         @for (livre of auteur()!.livres; track livre.id) {
-                            <div class="col-md-6">
-                                <div class="card book-card">
-                                    <div class="card-body">
-                                        <h6 class="card-title">{{ livre.titre }}</h6>
+                            <div class="col-sm-6 col-lg-4">
+                                <a [routerLink]="['/livres', livre.id]" class="book-card-link">
+                                    <div class="card book-card h-100">
+                                        <div class="book-cover-wrapper">
+                                            @if (livre.photoCouverture) {
+                                                <img [src]="livre.photoCouverture" [alt]="livre.titre" class="book-cover-img" loading="lazy">
+                                            } @else {
+                                                <div class="book-cover-placeholder">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+                                                    </svg>
+                                                    <span>Pas de couverture</span>
+                                                </div>
+                                            }
+                                            <div class="book-badges">
+                                                @if (livre.disponible) {
+                                                    <span class="badge badge-disponible">Disponible</span>
+                                                } @else {
+                                                    <span class="badge badge-indisponible">Indisponible</span>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ livre.titre }}</h5>
+                                            <p class="book-meta-secondary">
+                                                {{ livre.langue }} · {{ livre.dateSortie | slice:0:4 }}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div class="card-footer text-end">
-                                        <a [routerLink]="['/livres', livre.id]" class="btn btn-sm btn-outline-primary">Voir détail →</a>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
                         }
                     </div>

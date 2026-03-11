@@ -53,7 +53,7 @@ export class AuthService {
     return this.http.get<Adherent>(`${this.apiUrl}/user/me`);
   }
 
-  updateProfil(data: { telephone: string; adresse: string }): Observable<Adherent> {
+  updateProfil(data: { numTel: string; adressePostale: string }): Observable<Adherent> {
     return this.http.put<Adherent>(`${this.apiUrl}/user/profil`, data);
   }
 
