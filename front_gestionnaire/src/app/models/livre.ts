@@ -8,7 +8,7 @@ export interface Livre {
   resume?: string;
   langue: string;
   dateSortie: string;
-  couverture?: string;
+  photoCouverture?: string;
   disponible: boolean;
   categorie?: Categorie;
   auteurs?: Auteur[];

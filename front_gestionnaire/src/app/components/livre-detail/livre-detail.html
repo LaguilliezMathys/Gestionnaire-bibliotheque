@@ -21,95 +21,124 @@
         </nav>
 
         <div class="row g-4">
-            <!-- Main info -->
-            <div class="col-lg-8">
-                <div class="card">
-                    <div class="card-body p-4">
-                        <div class="d-flex justify-content-between align-items-start mb-3">
-                            <div>
-                                @if (livre()!.categorie) {
-                                    <span class="badge badge-categorie me-2">{{ livre()!.categorie!.libelle }}</span>
-                                }
-                                <span class="badge" [class.badge-disponible]="livre()!.disponible" [class.badge-indisponible]="!livre()!.disponible">
-                                    {{ livre()!.disponible ? 'Disponible' : 'Indisponible' }}
-                                </span>
-                            </div>
+            <!-- Couverture -->
+            <div class="col-md-4 col-lg-3">
+                <div class="detail-cover-card">
+                    @if (livre()!.photoCouverture) {
+                        <img [src]="livre()!.photoCouverture" [alt]="livre()!.titre" class="detail-cover-img">
+                    } @else {
+                        <div class="detail-cover-placeholder">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+                            </svg>
+                            <span>Pas de couverture</span>
                         </div>
-
-                        <h2 class="fw-bold mb-3">{{ livre()!.titre }}</h2>
-
-                        <!-- Auteurs -->
-                        @if (livre()!.auteurs && livre()!.auteurs!.length > 0) {
-                            <div class="mb-3">
-                                <span class="text-muted me-2">Auteur(s) :</span>
-                                @for (auteur of livre()!.auteurs; track auteur.id) {
-                                    <a [routerLink]="['/auteurs', auteur.id]" class="btn btn-sm btn-outline-secondary me-1">
-                                        {{ auteur.prenom }} {{ auteur.nom }}
-                                    </a>
-                                }
-                            </div>
-                        }
-
-                        <!-- Détails -->
-                        <div class="row g-3 mb-4">
-                            <div class="col-sm-4">
-                                <div class="p-3 bg-light rounded">
-                                    <small class="text-muted d-block">ISBN</small>
-                                    <strong>{{ livre()!.isbn }}</strong>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="p-3 bg-light rounded">
-                                    <small class="text-muted d-block">Langue</small>
-                                    <strong>{{ livre()!.langue }}</strong>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="p-3 bg-light rounded">
-                                    <small class="text-muted d-block">Date de sortie</small>
-                                    <strong>{{ livre()!.dateSortie }}</strong>
-                                </div>
-                            </div>
-                        </div>
-
-                        @if (livre()!.resume) {
-                            <h5 class="fw-bold">Résumé</h5>
-                            <p class="text-muted" style="line-height: 1.7">{{ livre()!.resume }}</p>
-                        }
-                    </div>
+                    }
                 </div>
-            </div>
 
-            <!-- Sidebar actions -->
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-body p-4">
-                        <h5 class="fw-bold mb-3">Actions</h5>
-
+                <!-- Actions (mobile et tablette en dessous de la couverture) -->
+                <div class="card mt-3 d-block d-lg-none">
+                    <div class="card-body p-3">
                         @if (authService.isLoggedIn()) {
                             @if (livre()!.disponible) {
-                                <button class="btn btn-accent w-100 mb-3" (click)="reserver()" [disabled]="reserving()">
+                                <button class="btn btn-accent w-100" (click)="reserver()" [disabled]="reserving()">
                                     @if (reserving()) {
                                         <span class="spinner-border spinner-border-sm me-1"></span>
                                     }
                                     Réserver ce livre
                                 </button>
-                                <p class="text-muted small text-center mb-0">
-                                    La réservation est valable 7 jours
-                                </p>
                             } @else {
-                                <div class="alert alert-warning mb-0">
-                                    <strong>Indisponible</strong><br>
-                                    <small>Ce livre est actuellement emprunté ou réservé.</small>
+                                <div class="alert alert-warning mb-0 text-center">
+                                    <strong>Indisponible</strong>
                                 </div>
                             }
                         } @else {
-                            <a routerLink="/login" class="btn btn-primary w-100 mb-2">
-                                Se connecter pour réserver
-                            </a>
-                            <p class="text-muted small text-center mb-0">Connectez-vous en tant qu'adhérent pour réserver ce livre.</p>
+                            <a routerLink="/login" class="btn btn-primary w-100">Se connecter pour réserver</a>
                         }
                     </div>
+                </div>
+            </div>
+
+            <!-- Main info -->
+            <div class="col-md-8 col-lg-6">
+                <div class="detail-badges mb-3">
+                    @if (livre()!.categorie) {
+                        <span class="badge badge-categorie">{{ livre()!.categorie!.nom }}</span>
+                    }
+                    <span class="badge" [class.badge-disponible]="livre()!.disponible" [class.badge-indisponible]="!livre()!.disponible">
+                        {{ livre()!.disponible ? 'Disponible' : 'Indisponible' }}
+                    </span>
+                </div>
+
+                <h2 class="detail-title">{{ livre()!.titre }}</h2>
+
+                <!-- Auteurs -->
+                @if (livre()!.auteurs && livre()!.auteurs!.length > 0) {
+                    <div class="detail-auteurs">
+                        @for (auteur of livre()!.auteurs; track auteur.id) {
+                            <a [routerLink]="['/auteurs', auteur.id]" class="detail-auteur-chip">
+                                @if (auteur.photo) {
+                                    <img [src]="auteur.photo" [alt]="auteur.prenom + ' ' + auteur.nom" class="detail-auteur-photo">
+                                } @else {
+                                    <span class="detail-auteur-avatar">{{ auteur.prenom?.charAt(0) }}{{ auteur.nom.charAt(0) }}</span>
+                                }
+                                {{ auteur.prenom }} {{ auteur.nom }}
+                            </a>
+                        }
+                    </div>
+                }
+
+                <!-- Infos clés -->
+                <div class="detail-info-grid">
+                    <div class="detail-info-item">
+                        <span class="detail-info-label">ISBN</span>
+                        <span class="detail-info-value">{{ livre()!.isbn }}</span>
+                    </div>
+                    <div class="detail-info-item">
+                        <span class="detail-info-label">Langue</span>
+                        <span class="detail-info-value">{{ livre()!.langue }}</span>
+                    </div>
+                    <div class="detail-info-item">
+                        <span class="detail-info-label">Parution</span>
+                        <span class="detail-info-value">{{ livre()!.dateSortie }}</span>
+                    </div>
+                </div>
+
+                <!-- Résumé -->
+                @if (livre()!.resume) {
+                    <div class="detail-resume">
+                        <h5 class="detail-section-title">Résumé</h5>
+                        <p>{{ livre()!.resume }}</p>
+                    </div>
+                }
+            </div>
+
+            <!-- Sidebar actions (desktop) -->
+            <div class="col-lg-3 d-none d-lg-block">
+                <div class="detail-actions-card">
+                    @if (authService.isLoggedIn()) {
+                        @if (livre()!.disponible) {
+                            <button class="btn btn-accent w-100 mb-2" (click)="reserver()" [disabled]="reserving()">
+                                @if (reserving()) {
+                                    <span class="spinner-border spinner-border-sm me-1"></span>
+                                }
+                                Réserver ce livre
+                            </button>
+                            <p class="text-muted small text-center mb-0">
+                                La réservation est valable 7 jours
+                            </p>
+                        } @else {
+                            <div class="alert alert-warning mb-0">
+                                <strong>Indisponible</strong><br>
+                                <small>Ce livre est actuellement emprunté ou réservé.</small>
+                            </div>
+                        }
+                    } @else {
+                        <a routerLink="/login" class="btn btn-primary w-100 mb-2">
+                            Se connecter pour réserver
+                        </a>
+                        <p class="text-muted small text-center mb-0">Connectez-vous en tant qu'adhérent pour réserver.</p>
+                    }
                 </div>
 
                 <a routerLink="/catalogue" class="btn btn-outline-secondary w-100 mt-3">

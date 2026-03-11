@@ -45,11 +45,11 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Téléphone</label>
-                                <input type="text" class="form-control" [(ngModel)]="editTelephone" name="telephone">
+                                <input type="text" class="form-control" [(ngModel)]="editNumTel" name="numTel">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Adresse</label>
-                                <input type="text" class="form-control" [(ngModel)]="editAdresse" name="adresse">
+                                <input type="text" class="form-control" [(ngModel)]="editAdressePostale" name="adressePostale">
                             </div>
                         </div>
                         <div class="mt-3">
@@ -72,15 +72,15 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <small class="text-muted d-block">Téléphone</small>
-                                <strong>{{ profil()!.telephone || 'Non renseigné' }}</strong>
+                                <strong>{{ profil()!.numTel || 'Non renseigné' }}</strong>
                             </div>
                             <div class="mb-3">
                                 <small class="text-muted d-block">Adresse</small>
-                                <strong>{{ profil()!.adresse || 'Non renseignée' }}</strong>
+                                <strong>{{ profil()!.adressePostale || 'Non renseignée' }}</strong>
                             </div>
                         </div>
                         <div class="col-12">
-                            <small class="text-muted">Membre depuis le {{ profil()!.dateInscription }}</small>
+                            <small class="text-muted">Membre depuis le {{ profil()!.dateAdhesion }}</small>
                         </div>
                     </div>
                 }

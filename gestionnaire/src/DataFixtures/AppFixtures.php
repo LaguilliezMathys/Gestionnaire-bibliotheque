@@ -40,23 +40,28 @@ class AppFixtures extends Fixture
 
         // ========== CATEGORIES ==========
         $catRoman = new Categorie();
-        $catRoman->setLibelle('Roman');
+        $catRoman->setNom('Roman');
+        $catRoman->setDescription('Œuvres de fiction narrative en prose');
         $manager->persist($catRoman);
 
         $catSF = new Categorie();
-        $catSF->setLibelle('Science-Fiction');
+        $catSF->setNom('Science-Fiction');
+        $catSF->setDescription('Romans explorant des mondes futuristes et technologies imaginaires');
         $manager->persist($catSF);
 
         $catPolicier = new Categorie();
-        $catPolicier->setLibelle('Policier');
+        $catPolicier->setNom('Policier');
+        $catPolicier->setDescription('Romans d\'enquêtes criminelles et de suspense');
         $manager->persist($catPolicier);
 
         $catHistoire = new Categorie();
-        $catHistoire->setLibelle('Histoire');
+        $catHistoire->setNom('Histoire');
+        $catHistoire->setDescription('Romans historiques et récits du passé');
         $manager->persist($catHistoire);
 
         $catFantasy = new Categorie();
-        $catFantasy->setLibelle('Fantasy');
+        $catFantasy->setNom('Fantasy');
+        $catFantasy->setDescription('Mondes imaginaires, magie et créatures fantastiques');
         $manager->persist($catFantasy);
 
         // ========== AUTEURS ==========
@@ -65,49 +70,70 @@ class AppFixtures extends Fixture
         $a1 = new Auteur();
         $a1->setNom('Hugo');
         $a1->setPrenom('Victor');
-        $a1->setBiographie('Écrivain, poète et dramaturge français du XIXe siècle.');
+        $a1->setDescription('Écrivain, poète et dramaturge français du XIXe siècle.');
+        $a1->setDateNaissance(new \DateTime('1802-02-26'));
+        $a1->setDateDeces(new \DateTime('1885-05-22'));
+        $a1->setNationalite('Française');
         $manager->persist($a1);
         $auteurs[] = $a1;
 
         $a2 = new Auteur();
         $a2->setNom('Zola');
         $a2->setPrenom('Émile');
-        $a2->setBiographie('Écrivain et journaliste français, chef de file du naturalisme.');
+        $a2->setDescription('Écrivain et journaliste français, chef de file du naturalisme.');
+        $a2->setDateNaissance(new \DateTime('1840-04-02'));
+        $a2->setDateDeces(new \DateTime('1902-09-29'));
+        $a2->setNationalite('Française');
         $manager->persist($a2);
         $auteurs[] = $a2;
 
         $a3 = new Auteur();
         $a3->setNom('Asimov');
         $a3->setPrenom('Isaac');
-        $a3->setBiographie('Écrivain américain d\'origine russe, auteur majeur de science-fiction.');
+        $a3->setDescription('Écrivain américain d\'origine russe, auteur majeur de science-fiction.');
+        $a3->setDateNaissance(new \DateTime('1920-01-02'));
+        $a3->setDateDeces(new \DateTime('1992-04-06'));
+        $a3->setNationalite('Américaine');
         $manager->persist($a3);
         $auteurs[] = $a3;
 
         $a4 = new Auteur();
         $a4->setNom('Christie');
         $a4->setPrenom('Agatha');
-        $a4->setBiographie('Romancière britannique, reine du roman policier.');
+        $a4->setDescription('Romancière britannique, reine du roman policier.');
+        $a4->setDateNaissance(new \DateTime('1890-09-15'));
+        $a4->setDateDeces(new \DateTime('1976-01-12'));
+        $a4->setNationalite('Britannique');
         $manager->persist($a4);
         $auteurs[] = $a4;
 
         $a5 = new Auteur();
         $a5->setNom('Tolkien');
         $a5->setPrenom('J.R.R.');
-        $a5->setBiographie('Écrivain britannique, auteur du Seigneur des Anneaux.');
+        $a5->setDescription('Écrivain britannique, auteur du Seigneur des Anneaux.');
+        $a5->setDateNaissance(new \DateTime('1892-01-03'));
+        $a5->setDateDeces(new \DateTime('1973-09-02'));
+        $a5->setNationalite('Britannique');
         $manager->persist($a5);
         $auteurs[] = $a5;
 
         $a6 = new Auteur();
         $a6->setNom('Camus');
         $a6->setPrenom('Albert');
-        $a6->setBiographie('Écrivain, philosophe et journaliste français. Prix Nobel de littérature 1957.');
+        $a6->setDescription('Écrivain, philosophe et journaliste français. Prix Nobel de littérature 1957.');
+        $a6->setDateNaissance(new \DateTime('1913-11-07'));
+        $a6->setDateDeces(new \DateTime('1960-01-04'));
+        $a6->setNationalite('Française');
         $manager->persist($a6);
         $auteurs[] = $a6;
 
         $a7 = new Auteur();
         $a7->setNom('Dumas');
         $a7->setPrenom('Alexandre');
-        $a7->setBiographie('Écrivain français, auteur de romans historiques populaires.');
+        $a7->setDescription('Écrivain français, auteur de romans historiques populaires.');
+        $a7->setDateNaissance(new \DateTime('1802-07-24'));
+        $a7->setDateDeces(new \DateTime('1870-12-05'));
+        $a7->setNationalite('Française');
         $manager->persist($a7);
         $auteurs[] = $a7;
 
@@ -358,16 +384,16 @@ class AppFixtures extends Fixture
         $adherents = [];
 
         $adherentData = [
-            ['email' => 'pierre.durand@email.fr', 'nom' => 'Durand', 'prenom' => 'Pierre', 'tel' => '0601020304', 'adresse' => '12 rue des Lilas, 31000 Toulouse'],
-            ['email' => 'marie.bernard@email.fr', 'nom' => 'Bernard', 'prenom' => 'Marie', 'tel' => '0605060708', 'adresse' => '5 avenue Jean Jaurès, 31500 Toulouse'],
-            ['email' => 'luc.petit@email.fr', 'nom' => 'Petit', 'prenom' => 'Luc', 'tel' => '0611223344', 'adresse' => '8 place du Capitole, 31000 Toulouse'],
-            ['email' => 'emma.moreau@email.fr', 'nom' => 'Moreau', 'prenom' => 'Emma', 'tel' => '0655667788', 'adresse' => '22 rue Alsace-Lorraine, 31000 Toulouse'],
-            ['email' => 'julien.garcia@email.fr', 'nom' => 'Garcia', 'prenom' => 'Julien', 'tel' => '0699887766', 'adresse' => '3 allée des Demoiselles, 31400 Toulouse'],
-            ['email' => 'claire.roux@email.fr', 'nom' => 'Roux', 'prenom' => 'Claire', 'tel' => '0633445566', 'adresse' => '15 rue de Metz, 31000 Toulouse'],
-            ['email' => 'thomas.leroy@email.fr', 'nom' => 'Leroy', 'prenom' => 'Thomas', 'tel' => '0677889900', 'adresse' => '7 boulevard de Strasbourg, 31000 Toulouse'],
-            ['email' => 'sarah.simon@email.fr', 'nom' => 'Simon', 'prenom' => 'Sarah', 'tel' => '0612345678', 'adresse' => '45 route de Blagnac, 31700 Blagnac'],
-            ['email' => 'nicolas.laurent@email.fr', 'nom' => 'Laurent', 'prenom' => 'Nicolas', 'tel' => '0698765432', 'adresse' => '11 chemin de Lapujade, 31200 Toulouse'],
-            ['email' => 'camille.michel@email.fr', 'nom' => 'Michel', 'prenom' => 'Camille', 'tel' => '0654321098', 'adresse' => '28 rue du Taur, 31000 Toulouse'],
+            ['email' => 'pierre.durand@email.fr', 'nom' => 'Durand', 'prenom' => 'Pierre', 'numTel' => '0601020304', 'adressePostale' => '12 rue des Lilas, 31000 Toulouse', 'dateNaissance' => '1990-05-15'],
+            ['email' => 'marie.bernard@email.fr', 'nom' => 'Bernard', 'prenom' => 'Marie', 'numTel' => '0605060708', 'adressePostale' => '5 avenue Jean Jaurès, 31500 Toulouse', 'dateNaissance' => '1985-08-22'],
+            ['email' => 'luc.petit@email.fr', 'nom' => 'Petit', 'prenom' => 'Luc', 'numTel' => '0611223344', 'adressePostale' => '8 place du Capitole, 31000 Toulouse', 'dateNaissance' => '1995-02-10'],
+            ['email' => 'emma.moreau@email.fr', 'nom' => 'Moreau', 'prenom' => 'Emma', 'numTel' => '0655667788', 'adressePostale' => '22 rue Alsace-Lorraine, 31000 Toulouse', 'dateNaissance' => '1992-11-03'],
+            ['email' => 'julien.garcia@email.fr', 'nom' => 'Garcia', 'prenom' => 'Julien', 'numTel' => '0699887766', 'adressePostale' => '3 allée des Demoiselles, 31400 Toulouse', 'dateNaissance' => '1988-07-28'],
+            ['email' => 'claire.roux@email.fr', 'nom' => 'Roux', 'prenom' => 'Claire', 'numTel' => '0633445566', 'adressePostale' => '15 rue de Metz, 31000 Toulouse', 'dateNaissance' => '1993-04-17'],
+            ['email' => 'thomas.leroy@email.fr', 'nom' => 'Leroy', 'prenom' => 'Thomas', 'numTel' => '0677889900', 'adressePostale' => '7 boulevard de Strasbourg, 31000 Toulouse', 'dateNaissance' => '1991-01-30'],
+            ['email' => 'sarah.simon@email.fr', 'nom' => 'Simon', 'prenom' => 'Sarah', 'numTel' => '0612345678', 'adressePostale' => '45 route de Blagnac, 31700 Blagnac', 'dateNaissance' => '1997-09-12'],
+            ['email' => 'nicolas.laurent@email.fr', 'nom' => 'Laurent', 'prenom' => 'Nicolas', 'numTel' => '0698765432', 'adressePostale' => '11 chemin de Lapujade, 31200 Toulouse', 'dateNaissance' => '1986-12-05'],
+            ['email' => 'camille.michel@email.fr', 'nom' => 'Michel', 'prenom' => 'Camille', 'numTel' => '0654321098', 'adressePostale' => '28 rue du Taur, 31000 Toulouse', 'dateNaissance' => '1994-06-21'],
         ];
 
         foreach ($adherentData as $i => $data) {
@@ -375,10 +401,11 @@ class AppFixtures extends Fixture
             $adherent->setEmail($data['email']);
             $adherent->setNom($data['nom']);
             $adherent->setPrenom($data['prenom']);
-            $adherent->setTelephone($data['tel']);
-            $adherent->setAdresse($data['adresse']);
+            $adherent->setNumTel($data['numTel']);
+            $adherent->setAdressePostale($data['adressePostale']);
+            $adherent->setDateNaissance(new \DateTime($data['dateNaissance']));
             $adherent->setActif(true);
-            $adherent->setDateInscription(new \DateTime('-' . ($i * 30 + 10) . ' days'));
+            $adherent->setDateAdhesion(new \DateTime('-' . ($i * 30 + 10) . ' days'));
             $adherent->setPassword($this->passwordHasher->hashPassword($adherent, 'adherent'));
             $manager->persist($adherent);
             $adherents[] = $adherent;

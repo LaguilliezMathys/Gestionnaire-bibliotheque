@@ -27,7 +27,7 @@ class LivreCrudController extends AbstractCrudController
             TextareaField::new('resume', 'Résumé')->hideOnIndex(),
             TextField::new('langue'),
             DateField::new('dateSortie', 'Date de sortie'),
-            TextField::new('couverture', 'URL couverture')->hideOnIndex(),
+            TextField::new('photoCouverture', 'URL couverture')->hideOnIndex(),
             BooleanField::new('disponible'),
             AssociationField::new('categorie'),
             AssociationField::new('auteurs'),

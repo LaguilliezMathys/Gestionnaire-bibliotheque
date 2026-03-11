@@ -1,11 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { SlicePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ApiService } from '../../services/api-service';
 import { Auteur } from '../../models/auteur';
 
 @Component({
   selector: 'app-auteur-detail',
-  imports: [RouterLink],
+  imports: [RouterLink, SlicePipe],
   templateUrl: './auteur-detail.html',
   styleUrl: './auteur-detail.css',
 })

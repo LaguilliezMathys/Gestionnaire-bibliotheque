@@ -43,17 +43,25 @@ class Adherent implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['adherent:read', 'emprunt:read', 'reservation:read'])]
     private ?string $prenom = null;
 
+    #[ORM\Column(type: 'date', nullable: true)]
+    #[Groups(['adherent:read'])]
+    private ?\DateTimeInterface $dateNaissance = null;
+
     #[ORM\Column(length: 20, nullable: true)]
     #[Groups(['adherent:read'])]
-    private ?string $telephone = null;
+    private ?string $numTel = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['adherent:read'])]
-    private ?string $adresse = null;
+    private ?string $adressePostale = null;
 
     #[ORM\Column(type: 'datetime')]
     #[Groups(['adherent:read'])]
-    private ?\DateTimeInterface $dateInscription = null;
+    private ?\DateTimeInterface $dateAdhesion = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['adherent:read'])]
+    private ?string $photo = null;
 
     #[ORM\Column]
     #[Groups(['adherent:read'])]
@@ -75,7 +83,7 @@ class Adherent implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->emprunts = new ArrayCollection();
         $this->reservations = new ArrayCollection();
-        $this->dateInscription = new \DateTime();
+        $this->dateAdhesion = new \DateTime();
     }
 
     public function getId(): ?int
@@ -162,38 +170,62 @@ class Adherent implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getTelephone(): ?string
+    public function getDateNaissance(): ?\DateTimeInterface
     {
-        return $this->telephone;
+        return $this->dateNaissance;
     }
 
-    public function setTelephone(?string $telephone): static
+    public function setDateNaissance(?\DateTimeInterface $dateNaissance): static
     {
-        $this->telephone = $telephone;
+        $this->dateNaissance = $dateNaissance;
 
         return $this;
     }
 
-    public function getAdresse(): ?string
+    public function getNumTel(): ?string
     {
-        return $this->adresse;
+        return $this->numTel;
     }
 
-    public function setAdresse(?string $adresse): static
+    public function setNumTel(?string $numTel): static
     {
-        $this->adresse = $adresse;
+        $this->numTel = $numTel;
 
         return $this;
     }
 
-    public function getDateInscription(): ?\DateTimeInterface
+    public function getAdressePostale(): ?string
     {
-        return $this->dateInscription;
+        return $this->adressePostale;
     }
 
-    public function setDateInscription(\DateTimeInterface $dateInscription): static
+    public function setAdressePostale(?string $adressePostale): static
     {
-        $this->dateInscription = $dateInscription;
+        $this->adressePostale = $adressePostale;
+
+        return $this;
+    }
+
+    public function getDateAdhesion(): ?\DateTimeInterface
+    {
+        return $this->dateAdhesion;
+    }
+
+    public function setDateAdhesion(\DateTimeInterface $dateAdhesion): static
+    {
+        $this->dateAdhesion = $dateAdhesion;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): static
+    {
+        $this->photo = $photo;
 
         return $this;
     }

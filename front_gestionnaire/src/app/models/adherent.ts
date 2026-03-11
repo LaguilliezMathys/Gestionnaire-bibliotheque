@@ -3,8 +3,8 @@ export interface Adherent {
   email: string;
   nom: string;
   prenom: string;
-  telephone?: string;
-  adresse?: string;
-  dateInscription: string;
+  numTel?: string;
+  adressePostale?: string;
+  dateAdhesion: string;
   actif: boolean;
 }

@@ -17,7 +17,7 @@
                         <select class="form-select" id="categorie" [(ngModel)]="selectedCategorie" name="categorie">
                             <option [value]="0">Toutes les catégories</option>
                             @for (cat of categories(); track cat.id) {
-                                <option [value]="cat.id">{{ cat.libelle }}</option>
+                                <option [value]="cat.id">{{ cat.nom }}</option>
                             }
                         </select>
                     </div>
@@ -56,37 +56,46 @@
     } @else {
         <div class="row g-4">
             @for (livre of livres(); track livre.id) {
-                <div class="col-md-6 col-lg-3">
-                    <div class="card book-card h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                @if (livre.categorie) {
-                                    <span class="badge badge-categorie">{{ livre.categorie.libelle }}</span>
-                                }
-                                @if (livre.disponible) {
-                                    <span class="badge badge-disponible">Disponible</span>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <a [routerLink]="['/livres', livre.id]" class="book-card-link">
+                        <div class="card book-card h-100">
+                            <div class="book-cover-wrapper">
+                                @if (livre.photoCouverture) {
+                                    <img [src]="livre.photoCouverture" [alt]="livre.titre" class="book-cover-img" loading="lazy">
                                 } @else {
-                                    <span class="badge badge-indisponible">Indisponible</span>
+                                    <div class="book-cover-placeholder">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+                                        </svg>
+                                        <span>Pas de couverture</span>
+                                    </div>
                                 }
-                            </div>
-                            <h5 class="card-title">{{ livre.titre }}</h5>
-                            <p class="book-meta mb-1">
-                                @if (livre.auteurs && livre.auteurs.length > 0) {
-                                    @for (auteur of livre.auteurs; track auteur.id; let last = $last) {
-                                        {{ auteur.prenom }} {{ auteur.nom }}@if (!last) {, }
+                                <div class="book-badges">
+                                    @if (livre.disponible) {
+                                        <span class="badge badge-disponible">Disponible</span>
+                                    } @else {
+                                        <span class="badge badge-indisponible">Indisponible</span>
                                     }
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                @if (livre.categorie) {
+                                    <span class="book-categorie-tag">{{ livre.categorie.nom }}</span>
                                 }
-                            </p>
-                            <p class="book-meta">
-                                {{ livre.langue }} · {{ livre.dateSortie | slice:0:4 }}
-                            </p>
+                                <h5 class="card-title">{{ livre.titre }}</h5>
+                                <p class="book-meta mb-1">
+                                    @if (livre.auteurs && livre.auteurs.length > 0) {
+                                        @for (auteur of livre.auteurs; track auteur.id; let last = $last) {
+                                            {{ auteur.prenom }} {{ auteur.nom }}@if (!last) {, }
+                                        }
+                                    }
+                                </p>
+                                <p class="book-meta-secondary">
+                                    {{ livre.langue }} · {{ livre.dateSortie | slice:0:4 }}
+                                </p>
+                            </div>
                         </div>
-                        <div class="card-footer text-end">
-                            <a [routerLink]="['/livres', livre.id]" class="btn btn-sm btn-outline-primary">
-                                Voir détail →
-                            </a>
-                        </div>
-                    </div>
+                    </a>
                 </div>
             } @empty {
                 <div class="col-12">

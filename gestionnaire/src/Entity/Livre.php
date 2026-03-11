@@ -33,19 +33,19 @@ class Livre
     private ?string $resume = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['livre:read', 'livre:list'])]
+    #[Groups(['livre:read', 'livre:list', 'auteur:read'])]
     private ?string $langue = null;
 
     #[ORM\Column(type: 'date')]
-    #[Groups(['livre:read', 'livre:list'])]
+    #[Groups(['livre:read', 'livre:list', 'auteur:read'])]
     private ?\DateTimeInterface $dateSortie = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['livre:read', 'livre:list'])]
-    private ?string $couverture = null;
+    #[Groups(['livre:read', 'livre:list', 'auteur:read'])]
+    private ?string $photoCouverture = null;
 
     #[ORM\Column]
-    #[Groups(['livre:read', 'livre:list', 'categorie:read'])]
+    #[Groups(['livre:read', 'livre:list', 'categorie:read', 'auteur:read'])]
     private ?bool $disponible = true;
 
     #[ORM\ManyToOne(inversedBy: 'livres')]
@@ -144,14 +144,14 @@ class Livre
         return $this;
     }
 
-    public function getCouverture(): ?string
+    public function getPhotoCouverture(): ?string
     {
-        return $this->couverture;
+        return $this->photoCouverture;
     }
 
-    public function setCouverture(?string $couverture): static
+    public function setPhotoCouverture(?string $photoCouverture): static
     {
-        $this->couverture = $couverture;
+        $this->photoCouverture = $photoCouverture;
 
         return $this;
     }
